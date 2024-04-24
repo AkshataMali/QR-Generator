@@ -1,0 +1,32 @@
+name: Update QR Codes Table
+
+on:
+  issues:
+    types: [opened, closed]
+
+jobs:
+  update-qrcodes:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run script and update README.md
+      run: node index.js
+
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git commit -m "Update QR Codes Table"
+        git push
